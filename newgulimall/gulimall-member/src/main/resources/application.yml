@@ -1,0 +1,25 @@
+server:
+  port: 8000
+spring:
+  application:
+    name: gulimall-member
+  #    mysql
+  datasource:
+    username: root
+    password: root
+    url: jdbc:mysql://192.168.56.10/gulimall_ums
+    driver-class-name: com.mysql.jdbc.Driver
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+# mybatis-plus
+mybatis-plus:
+  global-config:
+    db-config:
+      id-type: auto
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+  mapper-locations: classpath:/mapper/**/*.xml
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
