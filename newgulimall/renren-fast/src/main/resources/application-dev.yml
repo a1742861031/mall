@@ -4,7 +4,7 @@ spring:
   cloud:
     nacos:
       discovery:
-        server-addr: localhost
+        server-addr: 1.117.152.124:8848
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     druid:

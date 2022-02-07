@@ -12,9 +12,14 @@ spring:
   cloud:
     nacos:
       discovery:
-        server-addr: 127.0.0.1:8848
+        server-addr: 1.117.152.124:8848
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
+  thymeleaf:
+    cache: false # 关闭thymeleaf的缓存(开发时要关闭)
+  redis:
+    host: 1.117.152.124
+    port: 6379
 # mybatis-plus
 mybatis-plus:
   global-config:

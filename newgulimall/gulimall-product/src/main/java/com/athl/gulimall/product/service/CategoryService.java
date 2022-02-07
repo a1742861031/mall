@@ -1,5 +1,6 @@
 package com.athl.gulimall.product.service;
 
+import com.athl.gulimall.product.entity.vo.Catelog2Vo;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.athl.common.utils.PageUtils;
 import com.athl.gulimall.product.entity.CategoryEntity;
@@ -23,6 +24,10 @@ public interface CategoryService extends IService<CategoryEntity> {
     void removeMenus(List<Long> asList);
 
     Long[] findCategoryPath(Long catelogId);
+
+    List<CategoryEntity> getLevelOneCategorys();
+
+    Map<String, List<Catelog2Vo>> getCatalogJson();
 
 }
 

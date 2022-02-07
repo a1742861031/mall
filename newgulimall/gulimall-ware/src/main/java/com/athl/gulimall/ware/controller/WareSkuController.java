@@ -3,11 +3,13 @@ package com.athl.gulimall.ware.controller;
 import com.athl.common.utils.PageUtils;
 import com.athl.common.utils.R;
 import com.athl.gulimall.ware.entity.WareSkuEntity;
+import com.athl.gulimall.ware.entity.vo.SkuHasStokeVo;
 import com.athl.gulimall.ware.service.WareSkuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 
@@ -71,6 +73,14 @@ public class WareSkuController {
         wareSkuService.removeByIds(Arrays.asList(ids));
 
         return R.ok();
+    }
+
+    /**
+     * 查询是否有库存
+     */
+    @PostMapping("/hasStoke")
+    public  List<SkuHasStokeVo> getSkuHasStoke(@RequestBody List<Long> skuIds) {
+        return wareSkuService.getSkuHasStoke(skuIds);
     }
 
 }

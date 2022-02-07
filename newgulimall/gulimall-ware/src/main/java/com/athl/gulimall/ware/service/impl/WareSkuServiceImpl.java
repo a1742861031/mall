@@ -4,6 +4,7 @@ import com.athl.common.utils.PageUtils;
 import com.athl.common.utils.Query;
 import com.athl.gulimall.ware.dao.WareSkuDao;
 import com.athl.gulimall.ware.entity.WareSkuEntity;
+import com.athl.gulimall.ware.entity.vo.SkuHasStokeVo;
 import com.athl.gulimall.ware.feign.ProductFeignService;
 import com.athl.gulimall.ware.service.WareSkuService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 
 @Service("wareSkuService")
@@ -76,5 +78,17 @@ public class WareSkuServiceImpl extends ServiceImpl<WareSkuDao, WareSkuEntity> i
             wareSkuEntity.setSkuName(skuName);
             baseMapper.insert(wareSkuEntity);
         }
+    }
+
+    @Override
+    public List<SkuHasStokeVo> getSkuHasStoke(List<Long> skuIds) {
+        return skuIds.stream().map(skuId -> {
+            SkuHasStokeVo skuHasStokeVo = new SkuHasStokeVo();
+            //查询当前sku的总库存量
+            Long count = baseMapper.getSkuStock(skuId);
+            skuHasStokeVo.setSkuId(skuId);
+            skuHasStokeVo.setHasStoke(count > 0);
+            return skuHasStokeVo;
+        }).collect(Collectors.toList());
     }
 }

@@ -192,4 +192,10 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
         }).collect(Collectors.toList());
         productAttrValueService.saveBatch(collect);
     }
+
+    @Override
+    public List<Long> selectSearchAttrs(List<Long> attrIds) {
+        //在制定的所有集合挑出检索属性
+        return baseMapper.selectSearchIds(attrIds);
+    }
 }

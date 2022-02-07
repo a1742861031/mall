@@ -1,9 +1,11 @@
 package com.athl.gulimall.ware.service;
 
+import com.athl.gulimall.ware.entity.vo.SkuHasStokeVo;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.athl.common.utils.PageUtils;
 import com.athl.gulimall.ware.entity.WareSkuEntity;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -20,5 +22,8 @@ public interface WareSkuService extends IService<WareSkuEntity> {
     PageUtils queryByCondition(Map<String, Object> params);
 
     void addStock(Long skuId, Long wareId, Integer skuNum);
+
+    List<SkuHasStokeVo> getSkuHasStoke(List<Long> skuIds);
+
 }
 
