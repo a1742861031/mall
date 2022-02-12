@@ -6,5 +6,6 @@ package com.alth.gulimall.search.constant;
  * @Created by bobo
  */
 public class EsConstant {
-    public static final String PRODUCT_INDEX = "product"; //商品在es中的索引
+    public static final String PRODUCT_INDEX = "mymall_product"; //商品在es中的索引
+    public static final Integer pageSize = 16;
 }
