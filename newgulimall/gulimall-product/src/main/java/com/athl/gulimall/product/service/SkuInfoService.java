@@ -1,5 +1,6 @@
 package com.athl.gulimall.product.service;
 
+import com.athl.gulimall.product.entity.vo.SkuInfoVo;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.athl.common.utils.PageUtils;
 import com.athl.gulimall.product.entity.SkuInfoEntity;
@@ -21,5 +22,7 @@ public interface SkuInfoService extends IService<SkuInfoEntity> {
     PageUtils getSkuByCondition(Map<String, Object> params);
 
     List<SkuInfoEntity> getSkuBySpuId(Long spuId);
+
+    SkuInfoVo getSkuInfo(Long skuId);
 }
 

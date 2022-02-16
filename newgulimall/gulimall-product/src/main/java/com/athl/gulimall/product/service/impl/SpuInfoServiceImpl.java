@@ -96,7 +96,7 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
         SpuInfoDescEntity spuInfoDescEntity = new SpuInfoDescEntity();
         spuInfoDescEntity.setSpuId(spuInfoEntity.getId());
         List<String> decripts = spuSaveVo.getDecript();
-        spuInfoDescEntity.setDecript(String.join(",", decripts));
+        spuInfoDescEntity.setDescript(String.join(",", decripts));
         spuInfoDescDao.insert(spuInfoDescEntity);
         // 三、保存spu图片集
         List<String> images = spuSaveVo.getImages();

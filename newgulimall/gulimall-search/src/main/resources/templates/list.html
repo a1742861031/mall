@@ -1,5 +1,5 @@
 <!doctype html>
-<html  lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -401,8 +401,8 @@
         <a href="http://gulimall.com/"><img src="/static/search/image/logo1.jpg" alt=""></a>
     </div>
     <div class="header_form">
-        <input type="text" placeholder="手机"/>
-        <a href="/static/search/#">搜索</a>
+        <input id="key_input" type="text" th:value="${param.keyword}"/>
+        <a href="javascript:searchKeyword();">搜索</a>
     </div>
     <div class="header_ico">
         <div class="header_gw">
@@ -787,7 +787,8 @@
                         <div class="sl_value_logo">
                             <ul>
                                 <li th:each="brand:${result.getBrands()}">
-                                    <a href="/static/search/#" th:href="${'javasript:searchProducts(brandId,)'}">
+                                    <a href="/static/search/#"
+                                       th:href="${'javascript:searchProducts(&quot;brandId&quot;,'+brand.getBrandId()+')'}">
                                         <img th:src="${brand.getBrandImg()}" alt="">
                                         <div th:text="${brand.getBrandName()}">
                                             华为(HUAWEI)
@@ -816,9 +817,12 @@
                     <div class="sl_key">
                         <span>商品分类：</span>
                     </div>
-                    <div class="sl_value" >
+                    <div class="sl_value">
                         <ul>
-                            <li th:each="val:${result.getCatalogs()}"><a href="/static/search/#" th:text="${val.getCatalogName()}">5.56英寸及以上</a></li>
+                            <li th:each="val:${result.getCatalogs()}"><a href="/static/search/#"
+                                                                         th:href="${'javascript:searchProducts(&quot;catalog3Id&quot;,'+val.getCatalogId()+')'}"
+                                                                         th:text="${val.getCatalogName()}">5.56英寸及以上</a>
+                            </li>
 
                         </ul>
                     </div>
@@ -830,7 +834,10 @@
                     </div>
                     <div class="sl_value">
                         <ul>
-                            <li th:each="val:${attr.getAttrValues()}"><a href="/static/search/#" th:text="${val}">5.56英寸及以上</a></li>
+                            <li th:each="val:${attr.getAttrValues()}"><a href="/static/search/#"
+                                                                         th:href="${'javascript:searchProducts(&quot;attrs&quot;,&quot;'+attr.attrId+'_'+val+'&quot;)'}"
+                                                                         th:text="${val}">5.56英寸及以上</a>
+                            </li>
 
                         </ul>
                     </div>
@@ -1026,11 +1033,11 @@
                     <!--综合排序-->
                     <div class="filter_top">
                         <div class="filter_top_left">
-                            <a href="/static/search/#">综合排序</a>
-                            <a href="/static/search/#">销量</a>
-                            <a href="/static/search/#">价格</a>
-                            <a href="/static/search/#">评论分</a>
-                            <a href="/static/search/#">上架时间</a>
+                            <a class="sort_a" href="/static/search/#">综合排序</a>
+                            <a class="sort_a" href="/static/search/#">销量</a>
+                            <a class="sort_a" href="/static/search/#">价格</a>
+                            <a class="sort_a" href="/static/search/#">评论分</a>
+                            <a class="sort_a" href="/static/search/#">上架时间</a>
                         </div>
                         <div class="filter_top_right">
                             <span class="fp-text">
@@ -1162,7 +1169,7 @@
                                 <a href="/static/search/#">关注</a>
                             </div>
                             <p class="da">
-                                <a href="/static/search/#">
+                                <a th:href="|http://item.gulimall.com/${product.skuId}.html|">
                                     <img th:src="${product.getSkuImg()}"></a></li>
                                 </a>
                             </p>
@@ -1203,24 +1210,28 @@
                     <div class="filter_page">
                         <div class="page_wrap">
                             <span class="page_span1">
-                                <a href="/static/search/#">
+                                <a class="page_a" href="/static/search/#"
+                                   th:attr="pn=${result.pageNum-1}"
+                                   th:if="${result.pageNum>1}">
                                     < 上一页
                                 </a>
-                                <a href="/static/search/#" style="border: 0;color:#ee2222;background: #fff">1</a>
-                                <a href="/static/search/#">2</a>
-                                <a href="/static/search/#">3</a>
                                 <a href="/static/search/#"
-                                   style="border: 0;font-size: 20px;color: #999;background: #fff">...</a>
-                                <a href="/static/search/#">169</a>
-                                <a href="/static/search/#">
+                                   class="page_a"
+                                   th:attr="pn=${i},style=${i==result.getPageNum()?'border: 0;color:#ee2222;background: #fff':''}"
+                                   style="border: 0;color:#ee2222;background: #fff"
+                                   th:each="i:${#numbers.sequence(1, result.totalPages)}" th:text="${i}">1</a>
+                                <a href="/static/search/#"
+                                   class="page_a"
+                                   th:attr="pn=${result.pageNum+1}"
+                                   th:if="${result.pageNum<result.totalPages}">
                                     下一页 >
                                 </a>
                             </span>
                             <span class="page_span2">
-                                <em>共<b>169</b>页&nbsp;&nbsp;到第</em>
-                                <input type="number" value="1">
+                                <em>共<b>[[${result.totalPages}]]</b>页&nbsp;&nbsp;到第</em>
+                                <input type="number" class="page_input" >
                                 <em>页</em>
-                                <a href="/static/search/#">确定</a>
+                                <a class="page_summit" href="/static/search/#">确定</a>
                             </span>
                         </div>
                     </div>
@@ -1968,9 +1979,69 @@
     }, function () {
         $(this).css("color", "#727272")
     })
-    function searchProducts(){
 
+    function searchProducts(name, value) {
+        //判断是否含有？
+        if (location.href.lastIndexOf("?") !== -1) {
+            location.href = location.href + "&" + name + "=" + value
+        } else {
+            location.href = location.href + "?" + name + "=" + value
+
+        }
     }
+
+    function searchKeyword() {
+        searchProducts("keyword", $("#key_input").val())
+    }
+
+    $(".page_a").click(function () {
+        var pn = $(this).attr("pn");
+        var href = location.href
+        if (href.indexOf("pageNum") != -1) {
+            location.href = replafeParmVal(href, "pageNum", pn)
+        } else {
+            location.href = location.href + "&pageNum=" + pn
+        }
+        return false;
+    })
+    $(".page_summit").click(function (){
+        var pn = $(".page_input").val()
+        var href = location.href
+        if (href.indexOf("pageNum") != -1) {
+            location.href = replafeParmVal(href, "pageNum", pn)
+        } else {
+            location.href = location.href + "&pageNum=" + pn
+        }
+        return false
+    })
+
+    function replafeParmVal(url, parmName, replaceVal) {
+        var oUrl = url.toString();
+        var re = eval('/(' + parmName + '=)([^&]*)/gi')
+        var nUrl = oUrl.replace(re, parmName + "=" + replaceVal)
+        return nUrl
+    }
+    $(".sort_a").click(function (){
+        $(".sort_a").css({"color": "#333", "border-color": "#ccc", "background": "#fff"});
+        $(".sort_a").each(function () {
+            let text = $(this).text().replace("↓", "").replace("↑", "");
+            $(this).text(text);
+        })
+
+        $(ele).css({"color": "#FFF", "border-color": "#e4393c", "background": "#e4393c"});
+        $(ele).toggleClass("desc");
+
+        if ($(ele).hasClass("desc")) {
+            let text = $(ele).text().replace("↓", "").replace("↑", "");
+            text = text + "↓";
+            $(ele).text(text);
+        } else {
+            let text = $(ele).text().replace("↓", "").replace("↑", "");
+            text = text + "↑";
+            $(ele).text(text);
+        }
+        return false
+    })
 </script>
 </body>
 </html>

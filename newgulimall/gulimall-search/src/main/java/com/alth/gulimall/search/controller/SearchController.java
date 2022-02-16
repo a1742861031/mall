@@ -19,7 +19,7 @@ public class SearchController {
     @Autowired
     private MallSearchService mallSearchService;
 
-    @GetMapping("/list.html")
+    @GetMapping({"","/list.html"})
     public String listPage(SearchParam param, Model model) {
         //根据传递过来的参数 去Es中检索商品
         SearchResult searchResult = mallSearchService.search(param);
