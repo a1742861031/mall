@@ -452,15 +452,8 @@
 
                     <div class="box-lh-one">
                         <ul>
-                            <li><img src="/static/item/img/59ded62eN64a9784c.jpg"/></li>
-                            <li><img src="/static/item/img/59ded626Ne3c69b70.jpg"/></li>
-                            <li><img src="/static/item/img/59ded626N7c4cb0a3.jpg"/></li>
-                            <li><img src="/static/item/img/59ded626Ne3c69b70.jpg"/></li>
-                            <li><img src="/static/item/img/59ded62dN7e28abc5 (1).jpg"/></li>
-                            <li><img src="/static/item/img/59ded62cN6e9ac17c.jpg"/></li>
-                            <li><img src="/static/item/img/59ded620Nfc0ab489.jpg"/></li>
-                            <li><img src="/static/item/img/59ded60eN3110f3a8.jpg"/></li>
-                            <li><img src="/static/item/img/59ded62dNfed003a8.jpg"/></li>
+                            <li th:each="img:${item.getImages()}"><img th:src="${img.getImgUrl()}"/></li>
+
                         </ul>
                     </div>
                     <div id="left">
@@ -598,9 +591,9 @@
                             </div>
 
                         </li>
-<!--                        <li>-->
-<!--                            <span >无货</span>， 此商品暂时售完-->
-<!--                        </li>-->
+                        <!--                        <li>-->
+                        <!--                            <span >无货</span>， 此商品暂时售完-->
+                        <!--                        </li>-->
                     </ul>
                 </div>
                 <div class="box-supply">
@@ -612,51 +605,13 @@
                     </ul>
                 </div>
                 <div class="box-attr-3">
-                    <div class="box-attr clear">
+                    <div class="box-attr clear" th:each="attr:${item.getSaleAttrs()}">
                         <dl>
-                            <dt>选择颜色</dt>
-                            <dd>
+                            <dt>选择[[${attr.attrName}]]</dt>
+                            <dd th:each="val:${#strings.listSplit(attr.getAttrValues(),',')}">
                                 <a href="/static/item/#">
-                                    <img src="/static/item/img/59ddfcb1Nc3edb8f1.jpg"/> 摩卡金
+                                    [[${val}]]
                                 </a>
-                            </dd>
-                            <dd>
-                                <a href="/static/item/#">
-                                    <img src="/static/item/img/59ded62eN64a9784c.jpg"/> 亮黑色
-                                </a>
-                            </dd>
-                            <dd>
-                                <a href="/static/item/#">
-                                    <img src="/static/item/img/59ddfcb1Nc3edb8f1.jpg"/> 香槟金
-                                </a>
-                            </dd>
-                            <dd>
-                                <a href="/static/item/#">
-                                    <img src="/static/item/img/59ded682N99d4efcc.jpg"/> 樱粉金
-                                </a>
-                            </dd>
-                        </dl>
-                    </div>
-                    <div class="box-attr-2 clear">
-                        <dl>
-                            <dt>选择版本</dt>
-                            <dd>
-                                <a href="/static/item/#">标准版</a>
-                            </dd>
-                            <dd>
-                                <a href="/static/item/#">套装版</a>
-                            </dd>
-                        </dl>
-                    </div>
-
-                    <div class="box-attr-2 clear">
-                        <dl>
-                            <dt>选择内存</dt>
-                            <dd>
-                                <a href="/static/item/#">64GB</a>
-                            </dd>
-                            <dd>
-                                <a href="/static/item/#">128GB</a>
                             </dd>
                         </dl>
                     </div>
@@ -682,7 +637,7 @@
                     </div>
                     <div class="box-btns-two">
                         <a href="/static/item/../商品分类\index.html">
-                            立即预约
+                            立即购买
                         </a>
                     </div>
                     <div class="box-btns-three">
@@ -846,19 +801,19 @@
         <div class="allquanbushop">
             <ul class="shopjieshao">
                 <li class="jieshoa" style="background: #e4393c;">
-                    <a href="/static/item/##" style="color: white;">商品介绍</a>
+                    <a style="color: white;">商品介绍</a>
                 </li>
                 <li class="baozhuang">
-                    <a href="/static/item/##">规格与包装</a>
+                    <a >规格与包装</a>
                 </li>
                 <li class="baozhang">
-                    <a href="/static/item/##">售后保障</a>
+                    <a >售后保障</a>
                 </li>
                 <li class="pingjia">
-                    <a href="/static/item/##">商品评价(4万+)</a>
+                    <a >商品评价(4万+)</a>
                 </li>
                 <li class="shuoming">
-                    <a href="/static/item/##">预约说明</a>
+                    <a>预约说明</a>
                 </li>
 
             </ul>
@@ -926,7 +881,7 @@
                                     </td>
                                 </tr>
                             </table>
-                            <img class="xiaoguo" src="/static/item/img/5a0d4181Nf70c5ebf.jpg"/>
+                            <img class="xiaoguo" th:src="${item.getDesp().getDescript()}"/>
                             <div class="guiGebox guiGebox1">
                                 <div class="guiGe">
                                     <h3>主体</h3>

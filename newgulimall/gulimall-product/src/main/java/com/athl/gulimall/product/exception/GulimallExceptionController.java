@@ -37,6 +37,6 @@ public class GulimallExceptionController {
     @ExceptionHandler(value = {Exception.class})
     public R handleException(Exception e) {
         log.error("出现了异常{},异常类型{}", e.getMessage(), e.getClass());
-        return R.error(BizCodeEnum.UNKONW_EXCEPTON.getCode(), BizCodeEnum.UNKONW_EXCEPTON.getMsg());
+        return R.error(BizCodeEnum.UNKNOWN_EXCEPTION.getCode(), BizCodeEnum.UNKNOWN_EXCEPTION.getMsg());
     }
 }

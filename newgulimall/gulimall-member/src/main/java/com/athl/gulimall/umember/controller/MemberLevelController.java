@@ -70,8 +70,6 @@ public class MemberLevelController {
     @RequestMapping("/delete")
     public R delete(@RequestBody Long[] ids) {
         memberLevelService.removeByIds(Arrays.asList(ids));
-
         return R.ok();
     }
-
 }
